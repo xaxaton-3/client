@@ -1,6 +1,4 @@
 import { useEffect } from 'react';
-import { ProgressSpinner } from 'primereact/progressspinner';
-import { Card } from 'primereact/card';
 import { useUsersStore } from '@/store/users';
 
 const Users = () => {
@@ -13,17 +11,17 @@ const Users = () => {
   }, []);
 
   if (isLoading) {
-    return <ProgressSpinner />;
+    return <p>Loading</p>;
   }
 
   return (
-    <div className="flex flex-column gap-2">
+    <ul>
       {users.map((user) => (
-        <Card key={user.id}>
+        <li key={user.id}>
           {user.name} {user.username} {user.email}
-        </Card>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 };
 

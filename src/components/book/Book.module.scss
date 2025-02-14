@@ -1,0 +1,30 @@
+.book {
+  background: url('@/images/paper.jpg') center / cover no-repeat;
+  box-shadow: 0 0 20px #000;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.page {
+  position: relative;
+  padding: 8px 8px 36px;
+
+  &:global(.--left) {
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 1px;
+      height: 100%;
+      background-color: #e5e7eb;
+    }
+  }
+}
+
+.number {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+}

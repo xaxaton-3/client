@@ -1,11 +1,15 @@
-import { PrimeReactProvider } from 'primereact/api';
+import { ConfigProvider } from 'antd';
+import locale from 'antd/locale/ru_RU';
 import Router from './components/Router';
 
 const App = () => {
   return (
-    <PrimeReactProvider>
+    <ConfigProvider
+      theme={{ token: { colorPrimary: '#df5707' } }}
+      locale={locale}
+    >
       <Router />
-    </PrimeReactProvider>
+    </ConfigProvider>
   );
 };
 

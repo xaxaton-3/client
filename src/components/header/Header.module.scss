@@ -1,0 +1,12 @@
+.header {
+  background-image: url('@/images/header.jpg');
+  background-size: contain;
+  padding: 8px;
+  border-radius: 8px;
+  gap: 8px;
+
+  :global(.ant-menu-item) {
+    background-color: #fff !important;
+    border-radius: 8px !important;
+  }
+}
