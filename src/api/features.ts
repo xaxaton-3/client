@@ -1,9 +1,9 @@
 import { geoisApi } from '@/core/api';
-import { Feature } from '@/types/features';
+import { CreateFeatureParams, Feature } from '@/types/features';
 
 const FEATURES_BASE_URL = `/resource/${import.meta.env.VITE_GEOIS_ID}/feature`;
 
-export const createFeature = async (feature: Feature) => {
+export const createFeature = async (feature: CreateFeatureParams) => {
   const { data } = await geoisApi.post<{ id: number }>(`${FEATURES_BASE_URL}/`, feature);
   return data;
 };
@@ -35,6 +35,18 @@ export const createAttachment = async (attachment: {
     `${FEATURES_BASE_URL}/attachment/`,
     attachment,
   );
+  return data;
+};
+
+export const updateFeature = async (id: number, feature: Feature) => {
+  const { data } = await geoisApi.put<{ id: number }>(`${FEATURES_BASE_URL}/${id}/`, feature);
+  return data;
+};
+
+export const removeFeature = async (params: { id: number }[]) => {
+  const { data } = await geoisApi.delete<{ id: number }[]>(`${FEATURES_BASE_URL}/`, {
+    data: params,
+  });
   return data;
 };
 

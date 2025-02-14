@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
-import ReactNgwMap from '@nextgis/react-ngw-leaflet';
+// import ReactNgwMap from '@nextgis/react-ngw-leaflet';
 import { getFeatures } from '@/api/features';
-import Book from '@/components/book/Book';
-import { districts } from '@/data/districts';
+// import Book from '@/components/book/Book';
+// import { districts } from '@/data/districts';
 import FeaturesForm from '@/components/features/FeaturesForm';
 
 const Main = () => {

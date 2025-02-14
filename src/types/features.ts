@@ -26,3 +26,19 @@ export interface FeatureAttachment {
   is_image: boolean;
   file_meta: {};
 }
+
+export interface CreateFeatureParams {
+  geom: string;
+  fields: {
+    n_raion: string;
+    fio: string;
+    years: string;
+    info: string;
+    kontrakt: string;
+    nagrads: string;
+  };
+  extensions: {
+    description: null;
+    attachment: null;
+  };
+}
