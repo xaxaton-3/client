@@ -8,7 +8,7 @@ export const createFeature = async (feature: FeatureParams) => {
   return data;
 };
 
-export const uploadFile = async (params: { file: File; name: string }) => {
+export const uploadFile = async (params: FormData) => {
   const { data } = await geoisApi.post<{
     upload_meta: [
       {
@@ -18,21 +18,24 @@ export const uploadFile = async (params: { file: File; name: string }) => {
         mime_type: string;
       },
     ];
-  }>('/component/file_upload', params);
+  }>('/component/file_upload/', params);
   return data;
 };
 
-export const createAttachment = async (attachment: {
-  name: string;
-  size: number;
-  mime_type: string;
-  file_upload: {
-    id: string;
+export const createAttachment = async (
+  id: number,
+  attachment: {
+    name: string;
     size: number;
-  };
-}) => {
+    mime_type: string;
+    file_upload: {
+      id: string;
+      size: number;
+    };
+  },
+) => {
   const { data } = await geoisApi.post<{ id: number }>(
-    `${FEATURES_BASE_URL}/attachment/`,
+    `${FEATURES_BASE_URL}/${id}/attachment/`,
     attachment,
   );
   return data;

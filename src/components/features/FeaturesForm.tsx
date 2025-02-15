@@ -16,6 +16,7 @@ import { districts, districtsMap } from '@/data/districts';
 import { FeatureParams } from '@/types/features';
 import { formatDate } from '@/utils/date';
 import { getAIText } from '@/api/text';
+import { useFeaturesStore } from '@/store/features';
 
 interface FormValues {
   district: string;
@@ -39,10 +40,11 @@ const locations = [
 
 const FeaturesForm = () => {
   const [form] = Form.useForm();
+  const featuresStore = useFeaturesStore();
   const [isAILoading, setIsAILoading] = useState(false);
   const [messageApi] = message.useMessage();
 
-  const onFinish = (values: FormValues) => {
+  const onFinish = async (values: FormValues) => {
     console.log(values);
 
     const district = districtsMap[values.district];
@@ -62,6 +64,11 @@ const FeaturesForm = () => {
       },
       geom: `POINT (${district.latitude} ${district.longitude})`,
     };
+
+    await featuresStore.createFeature(
+      params,
+      values.files?.map((file) => file.originFileObj!) || [],
+    );
 
     console.log(params);
   };
@@ -211,6 +218,7 @@ const FeaturesForm = () => {
           <Button
             type="primary"
             htmlType="submit"
+            loading={featuresStore.isLoading}
           >
             Отправить
           </Button>

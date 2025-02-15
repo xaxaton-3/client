@@ -136,8 +136,8 @@ export const districts = [
   },
   {
     name: 'Тюльганский район',
-    latitude: 6211097.6,
-    longitude: 7551066.3,
+    latitude: 6266521.59457689,
+    longitude: 6868838.02903055,
   },
   {
     name: 'Шарлыкский район',

@@ -5,10 +5,10 @@ import Router from './components/Router';
 import { useFeaturesStore } from './store/features';
 
 const App = () => {
-  const { getFeatures } = useFeaturesStore();
+  const featuresStore = useFeaturesStore();
 
   useEffect(() => {
-    getFeatures();
+    featuresStore.getFeatures();
   }, []);
 
   return (
