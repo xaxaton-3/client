@@ -83,9 +83,13 @@ const FeaturesForm = () => {
       return;
     }
     setIsAILoading(true);
-    const { text } = await getAIText(info);
-    setIsAILoading(false);
-    form.setFieldValue('info', text);
+    try {
+      const { text } = await getAIText(info);
+      form.setFieldValue('info', text);
+    } catch (error) {
+    } finally {
+      setIsAILoading(false);
+    }
   };
 
   const normFile = (e: any) => {
