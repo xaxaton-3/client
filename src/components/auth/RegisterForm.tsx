@@ -1,4 +1,6 @@
-import { Button, Form, Input } from 'antd';
+import { useUserStore } from '@/store/user';
+import { Button, Form, Input, message } from 'antd';
+import { FC } from 'react';
 
 interface FormValues {
   email: string;
@@ -6,9 +8,23 @@ interface FormValues {
   confirmPassword: string;
 }
 
-const RegisterForm = () => {
-  const onFinish = (values: FormValues) => {
-    console.log(values);
+const RegisterForm: FC<{
+  onRegister: () => void;
+}> = ({ onRegister }) => {
+  const [messageApi, contextHolder] = message.useMessage();
+  const userStore = useUserStore();
+
+  const onFinish = async (values: FormValues) => {
+    try {
+      await userStore.register(values);
+      messageApi.open({
+        type: 'success',
+        content: 'Вы успешно зарегистрировались!',
+      });
+      onRegister();
+    } catch (error) {
+      throw error;
+    }
   };
 
   return (
@@ -16,6 +32,8 @@ const RegisterForm = () => {
       onFinish={onFinish}
       autoComplete="off"
     >
+      {contextHolder}
+
       <Form.Item
         label="Email"
         name="email"

@@ -5,19 +5,25 @@ import { createNotification, getNotifications } from '@/api/notifications';
 interface NotificationsStore {
   notifications: Notification[];
   isLoading: boolean;
-  getNotifications: (userId: number) => Promise<void>;
+  getNotifications: (
+    userId: number,
+    callback?: (notifications: Notification[]) => void,
+  ) => Promise<void>;
   createNotification: (params: CreateNotificationParams) => Promise<void>;
 }
 
 export const useNotificationsStore = create<NotificationsStore>((set) => ({
   notifications: [],
   isLoading: false,
-  getNotifications: async (userId) => {
+  getNotifications: async (userId, callback) => {
     set({ isLoading: true });
     try {
       const notifications = await getNotifications(userId);
-      set({ notifications });
+      const sortedNotifications = notifications.sort((a, b) => b.id - a.id);
+      set({ notifications: sortedNotifications });
+      callback?.(sortedNotifications);
     } catch (error) {
+      throw error;
     } finally {
       set({ isLoading: false });
     }
@@ -27,6 +33,7 @@ export const useNotificationsStore = create<NotificationsStore>((set) => ({
     try {
       await createNotification(params);
     } catch (error) {
+      throw error;
     } finally {
       set({ isLoading: false });
     }

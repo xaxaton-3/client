@@ -1,25 +1,13 @@
-import { useState } from 'react';
-import {
-  Button,
-  DatePicker,
-  Form,
-  Input,
-  Select,
-  Card,
-  message,
-  Upload,
-  type UploadFile,
-} from 'antd';
+import { FC, useState, useEffect, PropsWithChildren } from 'react';
+import { Button, DatePicker, Form, Input, Select, message, Upload, type UploadFile } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { Dayjs } from 'dayjs';
-import { districts, districtsMap } from '@/data/districts';
-import { FeatureParams } from '@/types/features';
-import { formatDate } from '@/utils/date';
+import { districts } from '@/data/districts';
 import { getAIText } from '@/api/text';
-import { useFeaturesStore } from '@/store/features';
 import { locations } from '@/data/locations';
+import Container from '../Container';
 
-interface FormValues {
+export interface FeaturesFormValues {
   district: string;
   name: string;
   birthDate: Dayjs;
@@ -30,40 +18,21 @@ interface FormValues {
   files: UploadFile[];
 }
 
-const FeaturesForm = () => {
+const FeaturesForm: FC<
+  PropsWithChildren<{
+    initialValues?: FeaturesFormValues;
+    isLoading?: boolean;
+    withUpload?: boolean;
+    onSubmit: (values: FeaturesFormValues) => void;
+  }>
+> = ({ initialValues, isLoading, withUpload = true, children, onSubmit }) => {
   const [form] = Form.useForm();
-  const featuresStore = useFeaturesStore();
   const [isAILoading, setIsAILoading] = useState(false);
-  const [messageApi] = message.useMessage();
+  const [messageApi, contextHolder] = message.useMessage();
 
-  const onFinish = async (values: FormValues) => {
-    console.log(values);
-
-    const district = districtsMap[values.district];
-
-    const params: FeatureParams = {
-      extensions: {
-        attachment: null,
-        description: null,
-      },
-      fields: {
-        n_raion: district.name,
-        fio: values.name,
-        years: `${formatDate(values.birthDate)} – ${formatDate(values.deathDate)}`,
-        info: values.info,
-        kontrakt: values.location,
-        nagrads: values.rewards,
-      },
-      geom: `POINT (${district.latitude} ${district.longitude})`,
-    };
-
-    await featuresStore.createFeature(
-      params,
-      values.files?.map((file) => file.originFileObj!) || [],
-    );
-
-    console.log(params);
-  };
+  useEffect(() => {
+    form.setFieldsValue(initialValues);
+  }, []);
 
   const onAIClick = async () => {
     const info = form.getFieldValue('info');
@@ -79,6 +48,7 @@ const FeaturesForm = () => {
       const { text } = await getAIText(info);
       form.setFieldValue('info', text);
     } catch (error) {
+      throw error;
     } finally {
       setIsAILoading(false);
     }
@@ -92,12 +62,14 @@ const FeaturesForm = () => {
   };
 
   return (
-    <Card style={{ maxWidth: 500, margin: '16px auto' }}>
+    <Container>
+      {contextHolder}
+
       <Form
         form={form}
         layout="vertical"
         autoComplete="off"
-        onFinish={onFinish}
+        onFinish={onSubmit}
       >
         <Form.Item
           name="district"
@@ -189,38 +161,42 @@ const FeaturesForm = () => {
           <Input placeholder="Введите награды" />
         </Form.Item>
 
-        <Form.Item
-          label="Фотографии"
-          name="files"
-          valuePropName="fileList"
-          getValueFromEvent={normFile}
-        >
-          <Upload
-            beforeUpload={() => false}
-            listType="picture-card"
-            accept="image/*"
+        {withUpload && (
+          <Form.Item
+            label="Фотографии"
+            name="files"
+            valuePropName="fileList"
+            getValueFromEvent={normFile}
           >
-            <button
-              style={{ border: 0, background: 'none' }}
-              type="button"
+            <Upload
+              beforeUpload={() => false}
+              listType="picture-card"
+              accept="image/*"
             >
-              <PlusOutlined />
-              <div style={{ marginTop: 8 }}>Загрузить</div>
-            </button>
-          </Upload>
-        </Form.Item>
+              <button
+                style={{ border: 0, background: 'none' }}
+                type="button"
+              >
+                <PlusOutlined />
+                <div style={{ marginTop: 8 }}>Загрузить</div>
+              </button>
+            </Upload>
+          </Form.Item>
+        )}
 
         <Form.Item>
           <Button
             type="primary"
             htmlType="submit"
-            loading={featuresStore.isLoading}
+            loading={isLoading}
           >
             Отправить
           </Button>
         </Form.Item>
+
+        {children}
       </Form>
-    </Card>
+    </Container>
   );
 };
 

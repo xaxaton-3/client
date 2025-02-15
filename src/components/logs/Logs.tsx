@@ -2,36 +2,18 @@ import { Alert, Flex, Spin } from 'antd';
 import { formatDateWithTime } from '@/utils/date';
 import { useLogsStore } from '@/store/logs';
 import { useEffect } from 'react';
+import { useUserStore } from '@/store/user';
 
 const Logs = () => {
   const logsStore = useLogsStore();
+  const userStore = useUserStore();
 
   useEffect(() => {
-    logsStore.getLogs(1);
+    logsStore.getLogs(userStore.user!.id);
   }, []);
 
   if (logsStore.isLoading) {
     return <Spin size="large" />;
-  }
-
-  if (!logsStore.logs.length) {
-    return (
-      <div>
-        {Array.from({ length: 10 }).map(() => (
-          <Alert
-            key={Math.random()}
-            message={
-              <Flex justify="space-between">
-                <span>Отправка заявки</span>
-                <span>{formatDateWithTime(undefined)}</span>
-              </Flex>
-            }
-            type="info"
-            style={{ marginBottom: 8 }}
-          />
-        ))}
-      </div>
-    );
   }
 
   return (

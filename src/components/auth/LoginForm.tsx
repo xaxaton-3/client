@@ -1,4 +1,7 @@
+import { useUserStore } from '@/store/user';
 import { Button, Form, Input } from 'antd';
+import { MessageInstance } from 'antd/es/message/interface';
+import { useNavigate, useOutletContext } from 'react-router';
 
 interface FormValues {
   email: string;
@@ -6,8 +9,26 @@ interface FormValues {
 }
 
 const LoginForm = () => {
-  const onFinish = (values: FormValues) => {
-    console.log(values);
+  const { messageApi } = useOutletContext<{ messageApi: MessageInstance }>();
+  const userStore = useUserStore();
+  const navigate = useNavigate();
+
+  const onFinish = async (values: FormValues) => {
+    userStore
+      .login(values)
+      .then(() => {
+        messageApi.open({
+          type: 'success',
+          content: 'Вы успешно авторизовались!',
+        });
+        navigate('/personal');
+      })
+      .catch(() => {
+        messageApi.open({
+          type: 'error',
+          content: 'Email или пароль неверные!',
+        });
+      });
   };
 
   return (
@@ -38,6 +59,7 @@ const LoginForm = () => {
         <Button
           type="primary"
           htmlType="submit"
+          loading={userStore.isLoading}
         >
           Войти
         </Button>

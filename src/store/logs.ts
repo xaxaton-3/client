@@ -16,8 +16,9 @@ export const useLogsStore = create<LogsStore>((set) => ({
     set({ isLoading: true });
     try {
       const logs = await getLogs(userId);
-      set({ logs });
+      set({ logs: logs.sort((a, b) => b.id - a.id) });
     } catch (error) {
+      throw error;
     } finally {
       set({ isLoading: false });
     }
@@ -27,6 +28,7 @@ export const useLogsStore = create<LogsStore>((set) => ({
     try {
       await createLog(params);
     } catch (error) {
+      throw error;
     } finally {
       set({ isLoading: false });
     }

@@ -1,8 +1,12 @@
-import { Card, Tabs, type TabsProps } from 'antd';
+import { Tabs, type TabsProps } from 'antd';
 import LoginForm from '@/components/auth/LoginForm';
 import RegisterForm from '@/components/auth/RegisterForm';
+import { useState } from 'react';
+import Container from '@/components/Container';
 
 const Auth = () => {
+  const [activeKey, setActiveKey] = useState('login');
+
   const items: TabsProps['items'] = [
     {
       key: 'login',
@@ -12,17 +16,18 @@ const Auth = () => {
     {
       key: 'register',
       label: 'Регистрация',
-      children: <RegisterForm />,
+      children: <RegisterForm onRegister={() => setActiveKey('login')} />,
     },
   ];
 
   return (
-    <Card style={{ maxWidth: 500, margin: '0 auto' }}>
+    <Container>
       <Tabs
-        defaultActiveKey="login"
+        activeKey={activeKey}
+        onChange={setActiveKey}
         items={items}
       />
-    </Card>
+    </Container>
   );
 };
 

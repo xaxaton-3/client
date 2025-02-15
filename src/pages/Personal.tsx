@@ -1,9 +1,16 @@
+import Container from '@/components/Container';
 import Logs from '@/components/logs/Logs';
 import Notifications from '@/components/notifications/Notifications';
-import { Card, Tabs, TabsProps } from 'antd';
+import User from '@/components/user/User';
+import { Tabs, TabsProps } from 'antd';
 
 const Personal = () => {
   const items: TabsProps['items'] = [
+    {
+      key: 'user',
+      label: 'Пользователь',
+      children: <User />,
+    },
     {
       key: 'logs',
       label: 'История',
@@ -17,12 +24,12 @@ const Personal = () => {
   ];
 
   return (
-    <Card style={{ maxWidth: 500, margin: '0 auto' }}>
+    <Container>
       <Tabs
-        defaultActiveKey="logs"
+        defaultActiveKey="user"
         items={items}
       />
-    </Card>
+    </Container>
   );
 };
 
