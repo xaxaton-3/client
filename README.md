@@ -1,50 +1,71 @@
-# React + TypeScript + Vite
+## Инструкция по деплою с помощью Docker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+1. Клонировать репозиторий
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```
+git clone https://github.com/xaxaton-3/client
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+2. Перейти в папку с проектом
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+```
+cd client
+```
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+3. Задать переменные окружения
+   Создать .env в корне по примеру из .env.template (поменять VITE_API_URL, если он другой):
+4. Собрать Docker-образ (вместо xaxaton-client может быть ваше название)
+
+```
+docker build -t xaxaton-client .
+```
+
+5. Запустить контейнер
+
+```
+docker run -p 80:80 xaxaton-client
+```
+
+5. Теперь приложение доступно по адресу http://localhost
+
+## Инструкция по деплою без использования Docker
+
+**1. Установить node.js 18**
+
+```
+https://nodejs.org/en/download
+```
+
+**2. Клонировать репозиторий**
+
+```
+git clone https://github.com/xaxaton-3/client
+```
+
+**3. Перейти в папку с проектом**
+
+```
+cd client
+```
+
+**4. Установить зависимости**
+
+```
+npm i
+```
+
+**5. Задать переменные окружения**
+Создать .env в корне по примеру из .env.template (поменять VITE_API_URL, если он другой):
+**6. Собрать проект**
+
+```
+npm run build
+```
+
+**7. В папке dist файлы проекта для дальнейшего деплоя**
+
+**8. Чтобы посмотреть собранный проект локально**
+
+```
+npm run preview
 ```
