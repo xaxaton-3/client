@@ -27,7 +27,7 @@ export interface FeatureAttachment {
   file_meta: {};
 }
 
-export interface CreateFeatureParams {
+export interface FeatureParams {
   geom: string;
   fields: {
     n_raion: string;

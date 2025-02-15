@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router';
-import Main from '@/pages/Main';
-import Users from '@/pages/Users';
 import MainLayout from '@/layouts/MainLayout';
+import Main from '@/pages/Main';
+import Features from '@/pages/Features';
+import Auth from '@/pages/Auth';
 
 const Router = () => {
   return (
@@ -14,8 +15,13 @@ const Router = () => {
           />
 
           <Route
-            path="users"
-            element={<Users />}
+            path="features"
+            element={<Features />}
+          />
+
+          <Route
+            path="auth"
+            element={<Auth />}
           />
         </Route>
       </Routes>

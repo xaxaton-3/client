@@ -1,6 +1,8 @@
 import { Button, DatePicker, Form, Input, Select, Card } from 'antd';
 import { Dayjs } from 'dayjs';
-import { districts } from '@/data/districts';
+import { districts, districtsMap } from '@/data/districts';
+import { FeatureParams } from '@/types/features';
+import { formatDate } from '@/utils/date';
 
 interface FormValues {
   district: string;
@@ -16,7 +18,25 @@ const FeaturesForm = () => {
   const [form] = Form.useForm();
 
   const onFinish = (values: FormValues) => {
-    console.log('Success:', values);
+    const district = districtsMap[values.district];
+
+    const params: FeatureParams = {
+      extensions: {
+        attachment: null,
+        description: null,
+      },
+      fields: {
+        n_raion: district.name,
+        fio: values.name,
+        years: `${formatDate(values.birthDate)} – ${formatDate(values.deathDate)}`,
+        info: values.info,
+        kontrakt: values.location,
+        nagrads: values.rewards,
+      },
+      geom: `POINT (${district.latitude} ${district.longitude})`,
+    };
+
+    console.log(params);
   };
 
   return (

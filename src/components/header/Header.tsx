@@ -1,7 +1,6 @@
+import { Menu, type MenuProps } from 'antd';
+import { AppstoreOutlined, LoginOutlined, UserOutlined } from '@ant-design/icons';
 import { useNavigate, useLocation } from 'react-router';
-import { AppstoreOutlined } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { Menu } from 'antd';
 import styles from './Header.module.scss';
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -13,9 +12,15 @@ const items: MenuItem[] = [
     icon: <AppstoreOutlined />,
   },
   {
-    label: 'Users',
-    key: '/users',
-    icon: <AppstoreOutlined />,
+    label: 'Военные',
+    key: '/features',
+    icon: <UserOutlined />,
+  },
+  {
+    label: 'Авторизация',
+    key: '/auth',
+    icon: <LoginOutlined />,
+    className: styles.auth,
   },
 ];
 

@@ -1,9 +1,9 @@
 import { geoisApi } from '@/core/api';
-import { CreateFeatureParams, Feature } from '@/types/features';
+import { FeatureParams, Feature } from '@/types/features';
 
 const FEATURES_BASE_URL = `/resource/${import.meta.env.VITE_GEOIS_ID}/feature`;
 
-export const createFeature = async (feature: CreateFeatureParams) => {
+export const createFeature = async (feature: FeatureParams) => {
   const { data } = await geoisApi.post<{ id: number }>(`${FEATURES_BASE_URL}/`, feature);
   return data;
 };
