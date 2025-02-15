@@ -17,6 +17,7 @@ import { FeatureParams } from '@/types/features';
 import { formatDate } from '@/utils/date';
 import { getAIText } from '@/api/text';
 import { useFeaturesStore } from '@/store/features';
+import { locations } from '@/data/locations';
 
 interface FormValues {
   district: string;
@@ -28,15 +29,6 @@ interface FormValues {
   rewards: string;
   files: UploadFile[];
 }
-
-const locations = [
-  'Великая отечественная война',
-  'Боевые действия в Афганистане',
-  'Вооруженный конфликт в Чеченской Республике и на прилегающих к ней территориях Российской Федерации',
-  'Выполнение специальных задач на территории Сирийской Арабской Республики',
-  'Выполнение специальных задач на территории Таджикистана, Ингушетии, в Грузино-Абхазских событиях',
-  'Специальная военная операция на Украине',
-];
 
 const FeaturesForm = () => {
   const [form] = Form.useForm();

@@ -1,12 +1,12 @@
 import { FC } from 'react';
 import PageFlip from 'react-pageflip';
-import { useFeaturesStore } from '@/store/features';
 import styles from './Book.module.scss';
 import BookSlider from './BookSlider';
+import { Feature } from '@/types/features';
 
-const Book: FC = () => {
-  const featuresStore = useFeaturesStore();
-
+const Book: FC<{
+  features: Feature[];
+}> = ({ features }) => {
   return (
     // @ts-ignore
     <PageFlip
@@ -14,7 +14,7 @@ const Book: FC = () => {
       width={500}
       height={600}
     >
-      {featuresStore.features.map((feature, index) => (
+      {features.map((feature, index) => (
         <div
           className={styles.page}
           key={feature.id}
