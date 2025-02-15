@@ -1,5 +1,12 @@
 import { Menu, type MenuProps } from 'antd';
-import { AppstoreOutlined, LoginOutlined, UserOutlined } from '@ant-design/icons';
+import {
+  AppstoreOutlined,
+  BookOutlined,
+  CopyOutlined,
+  LoginOutlined,
+  TeamOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 import { useNavigate, useLocation } from 'react-router';
 import styles from './Header.module.scss';
 
@@ -12,9 +19,24 @@ const items: MenuItem[] = [
     icon: <AppstoreOutlined />,
   },
   {
-    label: 'Военные',
+    label: 'Книга',
     key: '/features',
+    icon: <BookOutlined />,
+  },
+  {
+    label: 'Личный кабинет',
+    key: '/personal',
     icon: <UserOutlined />,
+  },
+  {
+    label: 'Пользователи',
+    key: '/users',
+    icon: <TeamOutlined />,
+  },
+  {
+    label: 'Заявки',
+    key: '/requests',
+    icon: <CopyOutlined />,
   },
   {
     label: 'Авторизация',

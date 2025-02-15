@@ -1,25 +1,21 @@
-import { useEffect } from 'react';
+import { Flex } from 'antd';
+import Book from '@/components/book/Book';
 import { useFeaturesStore } from '@/store/features';
 
 const Features = () => {
-  const features = useFeaturesStore((state) => state.features);
-  const isLoading = useFeaturesStore((state) => state.isLoading);
-  const getFeatures = useFeaturesStore((state) => state.getFeatures);
-
-  useEffect(() => {
-    getFeatures();
-  }, []);
+  const { isLoading } = useFeaturesStore();
 
   if (isLoading) {
     return <p>Loading</p>;
   }
 
   return (
-    <ul>
-      {features.map((feature) => (
-        <li key={feature.id}>{JSON.stringify(feature)}</li>
-      ))}
-    </ul>
+    <Flex
+      justify="center"
+      align="center"
+    >
+      <Book />
+    </Flex>
   );
 };
 

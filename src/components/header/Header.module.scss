@@ -4,8 +4,10 @@
   padding: 8px;
   border-radius: 8px;
   gap: 8px;
+  margin-bottom: 24px;
 
-  :global(.ant-menu-item) {
+  :global(.ant-menu-item),
+  :global(.ant-menu-overflow-item) {
     background-color: #fff !important;
     border-radius: 8px !important;
   }

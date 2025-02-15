@@ -9,6 +9,15 @@ html {
   overflow-x: hidden;
 }
 
+body {
+  margin: 0;
+  padding: 8px;
+}
+
 .ant-picker {
   width: 100%;
+}
+
+.leaflet-control-attribution {
+  display: none;
 }

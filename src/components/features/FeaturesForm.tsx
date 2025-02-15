@@ -1,8 +1,21 @@
-import { Button, DatePicker, Form, Input, Select, Card } from 'antd';
+import { useState } from 'react';
+import {
+  Button,
+  DatePicker,
+  Form,
+  Input,
+  Select,
+  Card,
+  message,
+  Upload,
+  type UploadFile,
+} from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import { Dayjs } from 'dayjs';
 import { districts, districtsMap } from '@/data/districts';
 import { FeatureParams } from '@/types/features';
 import { formatDate } from '@/utils/date';
+import { getAIText } from '@/api/text';
 
 interface FormValues {
   district: string;
@@ -12,12 +25,26 @@ interface FormValues {
   info: string;
   location: string;
   rewards: string;
+  files: UploadFile[];
 }
+
+const locations = [
+  'Великая отечественная война',
+  'Боевые действия в Афганистане',
+  'Вооруженный конфликт в Чеченской Республике и на прилегающих к ней территориях Российской Федерации',
+  'Выполнение специальных задач на территории Сирийской Арабской Республики',
+  'Выполнение специальных задач на территории Таджикистана, Ингушетии, в Грузино-Абхазских событиях',
+  'Специальная военная операция на Украине',
+];
 
 const FeaturesForm = () => {
   const [form] = Form.useForm();
+  const [isAILoading, setIsAILoading] = useState(false);
+  const [messageApi] = message.useMessage();
 
   const onFinish = (values: FormValues) => {
+    console.log(values);
+
     const district = districtsMap[values.district];
 
     const params: FeatureParams = {
@@ -37,6 +64,28 @@ const FeaturesForm = () => {
     };
 
     console.log(params);
+  };
+
+  const onAIClick = async () => {
+    const info = form.getFieldValue('info');
+    if (!info) {
+      messageApi.open({
+        type: 'error',
+        content: 'Введите информацию!',
+      });
+      return;
+    }
+    setIsAILoading(true);
+    const { text } = await getAIText(info);
+    setIsAILoading(false);
+    form.setFieldValue('info', text);
+  };
+
+  const normFile = (e: any) => {
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e?.fileList;
   };
 
   return (
@@ -97,16 +146,36 @@ const FeaturesForm = () => {
         >
           <Input.TextArea
             placeholder="Введите информацию"
+            disabled={isAILoading}
             rows={4}
           />
+        </Form.Item>
+
+        <Form.Item>
+          <Button
+            type="primary"
+            loading={isAILoading}
+            onClick={onAIClick}
+          >
+            Форматировать текст с помощью ИИ
+          </Button>
         </Form.Item>
 
         <Form.Item
           name="location"
           label="Место боевых действий"
-          rules={[{ required: true, message: 'Пожалуйста введите место боевых действий!' }]}
+          rules={[{ required: true, message: 'Пожалуйста выберите место боевых действий!' }]}
         >
-          <Input placeholder="Введите место боевых действий" />
+          <Select placeholder="Выберите место боевых действий">
+            {locations.map((location) => (
+              <Select.Option
+                key={location}
+                value={location}
+              >
+                {location}
+              </Select.Option>
+            ))}
+          </Select>
         </Form.Item>
 
         <Form.Item
@@ -115,6 +184,27 @@ const FeaturesForm = () => {
           rules={[{ required: true, message: 'Пожалуйста введите награды!' }]}
         >
           <Input placeholder="Введите награды" />
+        </Form.Item>
+
+        <Form.Item
+          label="Фотографии"
+          name="files"
+          valuePropName="fileList"
+          getValueFromEvent={normFile}
+        >
+          <Upload
+            beforeUpload={() => false}
+            listType="picture-card"
+            accept="image/*"
+          >
+            <button
+              style={{ border: 0, background: 'none' }}
+              type="button"
+            >
+              <PlusOutlined />
+              <div style={{ marginTop: 8 }}>Загрузить</div>
+            </button>
+          </Upload>
         </Form.Item>
 
         <Form.Item>

@@ -3,6 +3,8 @@ import MainLayout from '@/layouts/MainLayout';
 import Main from '@/pages/Main';
 import Features from '@/pages/Features';
 import Auth from '@/pages/Auth';
+import Requests from '@/pages/Requests';
+import Personal from '@/pages/Personal';
 
 const Router = () => {
   return (
@@ -17,6 +19,16 @@ const Router = () => {
           <Route
             path="features"
             element={<Features />}
+          />
+
+          <Route
+            path="personal"
+            element={<Personal />}
+          />
+
+          <Route
+            path="requests"
+            element={<Requests />}
           />
 
           <Route

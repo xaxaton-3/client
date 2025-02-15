@@ -17,7 +17,7 @@ const Auth = () => {
   ];
 
   return (
-    <Card style={{ maxWidth: 500, margin: '16px auto' }}>
+    <Card style={{ maxWidth: 500, margin: '0 auto' }}>
       <Tabs
         defaultActiveKey="login"
         items={items}

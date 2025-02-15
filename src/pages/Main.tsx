@@ -1,32 +1,35 @@
-import { useEffect } from 'react';
+import Map from '@/components/map/Map';
+import { Flex } from 'antd';
 // import ReactNgwMap from '@nextgis/react-ngw-leaflet';
-import { getFeatures } from '@/api/features';
 // import Book from '@/components/book/Book';
 // import { districts } from '@/data/districts';
-import FeaturesForm from '@/components/features/FeaturesForm';
+// import FeaturesForm from '@/components/features/FeaturesForm';
 
 const Main = () => {
-  useEffect(() => {
-    getFeatures();
-  }, []);
-
   return (
-    <div className="flex justify-content-center align-items-center">
+    <Flex
+      justify="center"
+      align="center"
+    >
       {/* <ul>
         {districts.map((district, index) => (
           <li key={index}>{district.name}</li>
         ))}
       </ul> */}
 
-      <FeaturesForm />
-
-      {/* <Book /> */}
+      {/* <FeaturesForm /> */}
 
       {/* <ReactNgwMap
         baseUrl="https://geois2.orb.ru"
         resources={[{ resource: Number(import.meta.env.VITE_GEOIS_ID), id: 'webmap', fit: true }]}
+        auth={{
+          login: import.meta.env.VITE_GEOIS_USERNAME,
+          password: import.meta.env.VITE_GEOIS_PASSWORD,
+        }}
       /> */}
-    </div>
+
+      <Map />
+    </Flex>
   );
 };
 
