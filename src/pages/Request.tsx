@@ -64,6 +64,7 @@ const Requests = () => {
         )}`,
         status: NotificationStatus.Success,
         to_user: request!.meta.userId,
+        email: request!.meta.email || undefined,
       });
       requestsStore.removeRequest(id);
     });
@@ -83,6 +84,7 @@ const Requests = () => {
         )}`,
         status: NotificationStatus.Error,
         to_user: request!.meta.userId,
+        email: request!.meta.email || undefined,
       });
     });
   };
