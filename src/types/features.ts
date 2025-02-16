@@ -39,6 +39,6 @@ export interface FeatureParams {
   };
   extensions: {
     description: null;
-    attachment: null;
+    attachment: FeatureAttachment[] | null;
   };
 }

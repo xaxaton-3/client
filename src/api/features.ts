@@ -41,8 +41,8 @@ export const createAttachment = async (
   return data;
 };
 
-export const updateFeature = async (id: number, feature: Feature) => {
-  const { data } = await geoisApi.put<{ id: number }>(`${FEATURES_BASE_URL}/${id}/`, feature);
+export const updateFeature = async (id: number, feature: FeatureParams) => {
+  const { data } = await geoisApi.put<{ id: number }>(`${FEATURES_BASE_URL}/${id}`, feature);
   return data;
 };
 

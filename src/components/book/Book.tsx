@@ -2,8 +2,9 @@ import { FC } from 'react';
 import PageFlip from 'react-pageflip';
 import styles from './Book.module.scss';
 import BookSlider from './BookSlider';
+import EditFeature from '@/components/features/EditFeature';
 import { Feature } from '@/types/features';
-import { Button } from 'antd';
+import { Button, Flex } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import { useUserStore } from '@/store/user';
 import { useFeaturesStore } from '@/store/features';
@@ -62,13 +63,17 @@ const Book: FC<{
           </p>
 
           {userStore.user?.is_superuser && (
-            <Button
-              type="primary"
-              danger
-              onClick={() => onRemove(feature.id)}
-            >
-              <DeleteOutlined />
-            </Button>
+            <Flex gap={8}>
+              <Button
+                type="primary"
+                danger
+                onClick={() => onRemove(feature.id)}
+              >
+                <DeleteOutlined />
+              </Button>
+
+              <EditFeature feature={feature} />
+            </Flex>
           )}
 
           <span className={styles.number}>{index + 1}</span>
