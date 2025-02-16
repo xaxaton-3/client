@@ -1,13 +1,27 @@
 .book {
-  background: url('@/images/paper.jpg') center / cover no-repeat;
-  box-shadow: 0 0 20px #000;
-  border-radius: 8px;
-  overflow: hidden;
+  :global(.stf__block) {
+    box-shadow: 0 0 20px #000;
+    background: url('@/images/paper.jpg') center / cover no-repeat;
+    border-radius: 8px;
+
+    @media (max-width: 1040px) {
+      background: none;
+      box-shadow: none;
+    }
+  }
+
+  @media (max-width: 1040px) {
+    :global(.stf__wrapper) {
+      padding: 0 !important;
+    }
+  }
 }
 
 .page {
+  background: url('@/images/paper.jpg') center / cover no-repeat;
   position: relative;
   padding: 8px 8px 36px;
+  border-radius: 8px;
 
   &:global(.--left) {
     &::after {
