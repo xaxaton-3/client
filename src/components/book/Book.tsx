@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import PageFlip from 'react-pageflip';
 import styles from './Book.module.scss';
 import BookSlider from './BookSlider';
@@ -10,11 +10,13 @@ import { useUserStore } from '@/store/user';
 import { useFeaturesStore } from '@/store/features';
 import { MessageInstance } from 'antd/es/message/interface';
 import { useOutletContext } from 'react-router';
+import { useLogsStore } from '@/store/logs';
 
 const Book: FC<{
   features: Feature[];
 }> = ({ features }) => {
   const { messageApi } = useOutletContext<{ messageApi: MessageInstance }>();
+  const logsStore = useLogsStore();
   const userStore = useUserStore();
   const featuresStore = useFeaturesStore();
 
@@ -23,6 +25,15 @@ const Book: FC<{
       messageApi.success('Запись успешно удалена!');
     });
   };
+
+  useEffect(() => {
+    if (userStore.user) {
+      logsStore.createLog({
+        user: userStore.user.id,
+        log: 'Просмотр книги',
+      });
+    }
+  }, [userStore.user]);
 
   return (
     // @ts-ignore
@@ -67,10 +78,9 @@ const Book: FC<{
               <Button
                 type="primary"
                 danger
+                icon={<DeleteOutlined />}
                 onClick={() => onRemove(feature.id)}
-              >
-                <DeleteOutlined />
-              </Button>
+              />
 
               <EditFeature feature={feature} />
             </Flex>

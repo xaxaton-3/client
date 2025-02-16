@@ -1,20 +1,22 @@
 import { Alert, Flex } from 'antd';
 import { formatDateWithTime } from '@/utils/date';
 import { useLogsStore } from '@/store/logs';
-import { useEffect } from 'react';
-import { useUserStore } from '@/store/user';
+import { FC, useEffect } from 'react';
 import Loader from '../Loader';
 
-const Logs = () => {
+const Logs: FC<{ userId: number }> = ({ userId }) => {
   const logsStore = useLogsStore();
-  const userStore = useUserStore();
 
   useEffect(() => {
-    logsStore.getLogs(userStore.user!.id);
+    logsStore.getLogs(userId);
   }, []);
 
   if (logsStore.isLoading) {
     return <Loader />;
+  }
+
+  if (!logsStore.logs.length) {
+    return 'Действий нет';
   }
 
   return (

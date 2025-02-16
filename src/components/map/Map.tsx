@@ -1,6 +1,21 @@
+import { useEffect } from 'react';
 import styles from './Map.module.scss';
+import { useUserStore } from '@/store/user';
+import { useLogsStore } from '@/store/logs';
 
 const Map = () => {
+  const userStore = useUserStore();
+  const logsStore = useLogsStore();
+
+  useEffect(() => {
+    if (userStore.user) {
+      logsStore.createLog({
+        user: userStore.user.id,
+        log: 'Просмотр карты',
+      });
+    }
+  }, [userStore.user]);
+
   return (
     <iframe
       className={styles.map}

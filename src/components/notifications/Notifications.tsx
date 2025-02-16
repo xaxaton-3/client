@@ -1,8 +1,7 @@
 import { Alert, AlertProps } from 'antd';
 import { useNotificationsStore } from '@/store/notifications';
-import { useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { NotificationStatus } from '@/types/notifications';
-import { useUserStore } from '@/store/user';
 import Loader from '../Loader';
 
 const types: Record<NotificationStatus, AlertProps['type']> = {
@@ -12,16 +11,19 @@ const types: Record<NotificationStatus, AlertProps['type']> = {
   [NotificationStatus.Error]: 'error',
 };
 
-const Notifications = () => {
+const Notifications: FC<{ userId: number }> = ({ userId }) => {
   const notificationsStore = useNotificationsStore();
-  const userStore = useUserStore();
 
   useEffect(() => {
-    notificationsStore.getNotifications(userStore.user!.id);
+    notificationsStore.getNotifications(userId);
   }, []);
 
   if (notificationsStore.isLoading) {
     return <Loader />;
+  }
+
+  if (!notificationsStore.notifications.length) {
+    return 'Уведомлений нет';
   }
 
   return (

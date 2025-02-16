@@ -15,17 +15,17 @@ const Personal = () => {
       {
         key: 'user',
         label: 'Пользователь',
-        children: <User />,
+        children: <User email={userStore.user!.email} />,
       },
       {
         key: 'logs',
         label: 'История',
-        children: <Logs />,
+        children: <Logs userId={userStore.user!.id} />,
       },
       {
         key: 'notifications',
         label: 'Уведомления',
-        children: <Notifications />,
+        children: <Notifications userId={userStore.user!.id} />,
       },
     ];
 

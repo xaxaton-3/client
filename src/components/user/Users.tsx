@@ -1,11 +1,14 @@
 import { getUsers } from '@/api/users';
 import Loader from '@/components/Loader';
+import { useUserStore } from '@/store/user';
 import { User } from '@/types/user';
 import { formatDate } from '@/utils/date';
 import { Button, Flex, List, Tag } from 'antd';
 import { useEffect, useState } from 'react';
+import { NavLink } from 'react-router';
 
 const Users = () => {
+  const userStore = useUserStore();
   const [users, setUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -43,17 +46,21 @@ const Users = () => {
         dataSource={users}
         renderItem={(user) => (
           <List.Item>
-            <Flex
-              vertical
-              gap={8}
-              style={{ width: '100%' }}
+            <NavLink
+              to={userStore.user?.id === user.id ? '/personal' : `/users/${user.id}`}
+              style={{ width: '100%', color: 'black' }}
             >
-              <Flex justify="space-between">
-                <span>{user.email}</span>
-                {user.is_superuser && <Tag color="green">Администратор</Tag>}
+              <Flex
+                vertical
+                gap={8}
+              >
+                <Flex justify="space-between">
+                  <span>{user.email}</span>
+                  {user.is_superuser && <Tag color="green">Администратор</Tag>}
+                </Flex>
+                <span>Дата регистрации: {formatDate(user.date_joined)}</span>
               </Flex>
-              <span>Дата регистрации: {formatDate(user.date_joined)}</span>
-            </Flex>
+            </NavLink>
           </List.Item>
         )}
       />

@@ -56,9 +56,10 @@ const EditFeaturesModal: FC<Props> = ({ feature }) => {
 
   return (
     <>
-      <Button onClick={() => setIsModalOpen(true)}>
-        <EditOutlined />
-      </Button>
+      <Button
+        icon={<EditOutlined />}
+        onClick={() => setIsModalOpen(true)}
+      />
 
       <Modal
         open={isModalOpen}

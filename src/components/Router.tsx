@@ -7,6 +7,7 @@ import Auth from '@/pages/Auth';
 import Requests from '@/pages/Requests';
 import Personal from '@/pages/Personal';
 import NewRequest from '@/pages/NewRequest';
+import User from '@/pages/User';
 
 const Router = () => {
   return (
@@ -41,6 +42,11 @@ const Router = () => {
           <Route
             path="requests/:id"
             element={<Request />}
+          />
+
+          <Route
+            path="users/:id"
+            element={<User />}
           />
 
           <Route

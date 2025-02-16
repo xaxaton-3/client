@@ -1,10 +1,8 @@
-import { useUserStore } from '@/store/user';
 import { UserOutlined } from '@ant-design/icons';
 import { Flex } from 'antd';
+import { FC } from 'react';
 
-const User = () => {
-  const userStore = useUserStore();
-
+const User: FC<{ email: string }> = ({ email }) => {
   return (
     <Flex
       gap={16}
@@ -24,7 +22,7 @@ const User = () => {
       >
         <UserOutlined />
       </div>
-      {userStore.user?.email}
+      {email}
     </Flex>
   );
 };
