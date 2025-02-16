@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Flex, Select, Spin } from 'antd';
+import { Flex, Select } from 'antd';
 import Book from '@/components/book/Book';
 import { useFeaturesStore } from '@/store/features';
 import { locations } from '@/data/locations';
+import Loader from '@/components/Loader';
 
 const Features = () => {
   const featuresStore = useFeaturesStore();
@@ -20,15 +21,7 @@ const Features = () => {
   }, [location, featuresStore.features]);
 
   if (featuresStore.isLoading) {
-    return (
-      <Flex
-        justify="center"
-        align="center"
-        style={{ height: 200 }}
-      >
-        <Spin size="large" />
-      </Flex>
-    );
+    return <Loader />;
   }
 
   return (

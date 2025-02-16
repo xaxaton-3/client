@@ -1,8 +1,9 @@
-import { Alert, AlertProps, Spin } from 'antd';
+import { Alert, AlertProps } from 'antd';
 import { useNotificationsStore } from '@/store/notifications';
 import { useEffect } from 'react';
 import { NotificationStatus } from '@/types/notifications';
 import { useUserStore } from '@/store/user';
+import Loader from '../Loader';
 
 const types: Record<NotificationStatus, AlertProps['type']> = {
   [NotificationStatus.Success]: 'success',
@@ -20,7 +21,7 @@ const Notifications = () => {
   }, []);
 
   if (notificationsStore.isLoading) {
-    return <Spin size="large" />;
+    return <Loader />;
   }
 
   return (

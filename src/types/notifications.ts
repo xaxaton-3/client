@@ -14,7 +14,8 @@ export enum NotificationStatus {
 }
 
 export interface CreateNotificationParams {
-  to_user: number;
   message: string;
   status: NotificationStatus;
+  to_user: number;
+  email?: string;
 }

@@ -1,8 +1,8 @@
 import { Card } from 'antd';
-import { FC, PropsWithChildren } from 'react';
+import { CSSProperties, FC, PropsWithChildren } from 'react';
 
-const Container: FC<PropsWithChildren> = ({ children }) => {
-  return <Card style={{ maxWidth: 500, margin: '0 auto' }}>{children}</Card>;
+const Container: FC<PropsWithChildren<{ style?: CSSProperties }>> = ({ children, style = {} }) => {
+  return <Card style={{ maxWidth: 500, margin: '0 auto', ...style }}>{children}</Card>;
 };
 
 export default Container;

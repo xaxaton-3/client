@@ -6,7 +6,6 @@ import Features from '@/pages/Features';
 import Auth from '@/pages/Auth';
 import Requests from '@/pages/Requests';
 import Personal from '@/pages/Personal';
-import Users from '@/pages/Users';
 import NewRequest from '@/pages/NewRequest';
 
 const Router = () => {
@@ -27,11 +26,6 @@ const Router = () => {
           <Route
             path="personal"
             element={<Personal />}
-          />
-
-          <Route
-            path="users"
-            element={<Users />}
           />
 
           <Route

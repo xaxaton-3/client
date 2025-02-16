@@ -8,9 +8,13 @@ import { formatDate } from '@/utils/date';
 import { useUserStore } from '@/store/user';
 import { useOutletContext } from 'react-router';
 import { MessageInstance } from 'antd/es/message/interface';
+import { useState } from 'react';
+import { Form, Input } from 'antd';
+import Container from '@/components/Container';
 
 const NewRequest = () => {
   const { messageApi } = useOutletContext<{ messageApi: MessageInstance }>();
+  const [email, setEmail] = useState('');
   const userStore = useUserStore();
   const logsStore = useLogsStore();
   const requestsStore = useRequestsStore();
@@ -34,17 +38,20 @@ const NewRequest = () => {
 
       requestsStore
         .createRequest({
-          userId: userStore.user!.id,
+          userId: userStore.user?.id || 0,
           feature: {
             ...values,
             birthDate: formatDate(values.birthDate, 'YYYY-MM-DD'),
             deathDate: formatDate(values.deathDate, 'YYYY-MM-DD'),
           },
           attachments,
+          email: userStore.user ? undefined : email,
         })
         .then(() => {
           messageApi.success('Заявка успешно отправлена!');
-          logsStore.createLog({ log: 'Отправка заявки', user: userStore.user!.id });
+          if (userStore.user) {
+            logsStore.createLog({ log: 'Отправка заявки', user: userStore.user.id });
+          }
         });
     } catch (error) {
       throw error;
@@ -52,10 +59,29 @@ const NewRequest = () => {
   };
 
   return (
-    <FeaturesForm
-      isLoading={requestsStore.isLoading}
-      onSubmit={onSubmit}
-    />
+    <>
+      {!userStore.user && (
+        <Container style={{ marginBottom: 16 }}>
+          <Form.Item
+            label="Email"
+            name="email"
+            style={{ marginBottom: 0 }}
+            rules={[{ type: 'email', message: 'Некорректный email!' }]}
+          >
+            <Input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Введите email"
+            />
+          </Form.Item>
+        </Container>
+      )}
+
+      <FeaturesForm
+        isLoading={requestsStore.isLoading}
+        onSubmit={onSubmit}
+      />
+    </>
   );
 };
 

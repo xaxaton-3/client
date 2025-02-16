@@ -61,6 +61,11 @@ const FeaturesForm: FC<
     return e?.fileList;
   };
 
+  const onFinish = (values: FeaturesFormValues) => {
+    onSubmit(values);
+    form.resetFields();
+  };
+
   return (
     <Container>
       {contextHolder}
@@ -69,7 +74,7 @@ const FeaturesForm: FC<
         form={form}
         layout="vertical"
         autoComplete="off"
-        onFinish={onSubmit}
+        onFinish={onFinish}
       >
         <Form.Item
           name="district"

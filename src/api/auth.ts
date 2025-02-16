@@ -6,15 +6,15 @@ export const login = async (credentials: Credentials) => {
   const { data } = await api.post<{
     token: string;
     user: User;
-  }>('/login/', credentials);
+  }>('/api/login/', credentials);
   return data;
 };
 
 export const register = async (credentials: Credentials) => {
-  await api.post('/register/', credentials);
+  await api.post('/api/register/', credentials);
 };
 
 export const auth = async () => {
-  const { data } = await api.get<User>('/auth/');
+  const { data } = await api.get<User>('/api/auth/');
   return data;
 };

@@ -20,4 +20,5 @@ export interface RequestMeta {
     name: string;
     mime_type: string;
   }[];
+  email?: string;
 }

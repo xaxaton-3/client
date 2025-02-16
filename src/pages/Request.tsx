@@ -1,3 +1,4 @@
+import Loader from '@/components/Loader';
 import FeaturesForm, { FeaturesFormValues } from '@/components/features/FeaturesForm';
 import { districtsMap } from '@/data/districts';
 import { useFeaturesStore } from '@/store/features';
@@ -7,8 +8,8 @@ import { useRequestsStore } from '@/store/requests';
 import { useUserStore } from '@/store/user';
 import { FeatureParams } from '@/types/features';
 import { NotificationStatus } from '@/types/notifications';
-import { formatDate } from '@/utils/date';
-import { Button, Spin } from 'antd';
+import { formatDate, formatDateWithTime } from '@/utils/date';
+import { Button } from 'antd';
 import { MessageInstance } from 'antd/es/message/interface';
 import dayjs from 'dayjs';
 import { useEffect } from 'react';
@@ -58,7 +59,9 @@ const Requests = () => {
         log: 'Принятие заявки',
       });
       notificationsStore.createNotification({
-        message: 'Ваша заявка принята',
+        message: `Ваша заявка о ${request?.meta.feature.name} принята ${formatDateWithTime(
+          undefined,
+        )}`,
         status: NotificationStatus.Success,
         to_user: request!.meta.userId,
       });
@@ -75,7 +78,9 @@ const Requests = () => {
         log: 'Отклонение заявки',
       });
       notificationsStore.createNotification({
-        message: 'Ваша заявка отклонена',
+        message: `Ваша заявка о ${request?.meta.feature.name} отклонена ${formatDateWithTime(
+          undefined,
+        )}`,
         status: NotificationStatus.Error,
         to_user: request!.meta.userId,
       });
@@ -83,7 +88,7 @@ const Requests = () => {
   };
 
   if (requestsStore.isLoading) {
-    return <Spin size="large" />;
+    return <Loader />;
   }
 
   return (

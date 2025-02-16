@@ -1,7 +1,8 @@
 import Container from '@/components/Container';
+import Loader from '@/components/Loader';
 import { useRequestsStore } from '@/store/requests';
 import { formatDate } from '@/utils/date';
-import { Alert, Flex, Spin } from 'antd';
+import { Alert, Flex } from 'antd';
 import { useEffect } from 'react';
 import { NavLink } from 'react-router';
 
@@ -13,16 +14,22 @@ const Requests = () => {
   }, []);
 
   if (requestsStore.isLoading) {
-    return <Spin size="large" />;
+    return <Loader />;
+  }
+
+  if (!requestsStore.requests.length) {
+    return <Container>Нет активных заявок</Container>;
   }
 
   return (
     <Container>
       <div>
         {requestsStore.requests.map((request) => (
-          <NavLink to={`/requests/${request.id}`}>
+          <NavLink
+            to={`/requests/${request.id}`}
+            key={request.id}
+          >
             <Alert
-              key={request.id}
               message={
                 <Flex
                   vertical

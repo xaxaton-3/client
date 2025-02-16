@@ -1,8 +1,9 @@
-import { Alert, Flex, Spin } from 'antd';
+import { Alert, Flex } from 'antd';
 import { formatDateWithTime } from '@/utils/date';
 import { useLogsStore } from '@/store/logs';
 import { useEffect } from 'react';
 import { useUserStore } from '@/store/user';
+import Loader from '../Loader';
 
 const Logs = () => {
   const logsStore = useLogsStore();
@@ -13,7 +14,7 @@ const Logs = () => {
   }, []);
 
   if (logsStore.isLoading) {
-    return <Spin size="large" />;
+    return <Loader />;
   }
 
   return (

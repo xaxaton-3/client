@@ -30,21 +30,19 @@ const Header = () => {
         key: '/features',
         icon: <BookOutlined />,
       },
+      {
+        label: 'Отправить заявку',
+        key: '/new-request',
+        icon: <CopyOutlined />,
+      },
     ];
 
     if (userStore.user) {
-      items.push(
-        {
-          label: 'Личный кабинет',
-          key: '/personal',
-          icon: <UserOutlined />,
-        },
-        {
-          label: 'Отправить заявку',
-          key: '/new-request',
-          icon: <CopyOutlined />,
-        },
-      );
+      items.push({
+        label: 'Личный кабинет',
+        key: '/personal',
+        icon: <UserOutlined />,
+      });
 
       if (userStore.user.is_superuser) {
         items.push(

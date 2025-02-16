@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { ConfigProvider, Flex, Spin } from 'antd';
+import { ConfigProvider } from 'antd';
 import locale from 'antd/locale/ru_RU';
 import Router from './components/Router';
 import { useUserStore } from './store/user';
+import Loader from './components/Loader';
 
 const App = () => {
   const userStore = useUserStore();
@@ -27,16 +28,12 @@ const App = () => {
       {isReady ? (
         <Router />
       ) : (
-        <Flex
-          justify="center"
-          align="center"
+        <Loader
           style={{
             width: '100vw',
             height: '100vh',
           }}
-        >
-          <Spin size="large" />
-        </Flex>
+        />
       )}
     </ConfigProvider>
   );

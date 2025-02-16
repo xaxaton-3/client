@@ -43,16 +43,23 @@ const Book: FC<{
           )}
 
           <p>
-            {feature.fields.fio} ({feature.fields.years})
+            <b>{feature.fields.fio}</b> родился <b>{feature.fields.years.split(' – ')[0]}</b>, погиб{' '}
+            <b>{feature.fields.years.split(' – ')[1]}</b>
           </p>
 
-          <p>{feature.fields.n_raion}</p>
+          <p>
+            <b>Место рождения:</b> {feature.fields.n_raion}
+          </p>
 
           <p>{feature.fields.info}</p>
 
-          <p>{feature.fields.kontrakt}</p>
+          <p>
+            <b>Принимал участие в:</b> {feature.fields.kontrakt}
+          </p>
 
-          <p>{feature.fields.nagrads}</p>
+          <p>
+            <b>Награжден:</b> {feature.fields.nagrads}
+          </p>
 
           {userStore.user?.is_superuser && (
             <Button
