@@ -51,7 +51,7 @@ const MapComponent = () => {
   const featuresStore = useFeaturesStore();
   const [location, setLocation] = useState<string | null>(null);
   const [popupContent, setPopupContent] = useState('');
-  // const [counter, setCounter] = useState<Record<string, number>>({});
+  const [_counter, setCounter] = useState<Record<string, number>>({});
 
   useEffect(() => {
     if (userStore.user) {
@@ -80,42 +80,43 @@ const MapComponent = () => {
 
   useEffect(() => {
     removeAllMarkers();
-    // setCounter({});
+    setCounter({});
 
     features.forEach((f) => {
       const district = districtsWithNormalCoordsMap[f.fields.n_raion];
 
-      // setCounter((counter) => ({
-      //   ...counter,
-      //   [district.name]: counter[district.name] ? counter[district.name] + 1 : 1,
-      // }));
+      setCounter((counter) => {
+        const addition = counter[district.name] || 0;
 
-      // const addition = counter[district.name];
-      // console.log(addition);
+        // Создаем маркер
+        const marker = new Feature({
+          geometry: new Point(fromLonLat([district.longitude + addition * 0.1, district.latitude])), // Координаты Москвы
+        });
 
-      // Создаем маркер
-      const marker = new Feature({
-        geometry: new Point(fromLonLat([district.longitude, district.latitude])), // Координаты Москвы
+        const markerStyle = new Style({
+          image: new Icon({
+            anchor: [0.5, 1],
+            src: f.extensions.attachment?.length
+              ? `${getImageUrl(f.id, f.extensions.attachment[0].id)}?size=64x64`
+              : 'https://openlayers.org/en/latest/examples/data/icon.png', // URL иконки маркера
+          }),
+        });
+
+        marker.setStyle(markerStyle);
+
+        // Добавляем данные объекта в маркер
+        marker.setProperties({
+          ...f, // Сохраняем все данные объекта в маркере
+        });
+
+        // Добавляем маркер в источник данных
+        vectorSourceRef.current.addFeature(marker);
+
+        return {
+          ...counter,
+          [district.name]: addition ? addition + 1 : 1,
+        };
       });
-
-      const markerStyle = new Style({
-        image: new Icon({
-          anchor: [0.5, 1],
-          src: f.extensions.attachment?.length
-            ? `${getImageUrl(f.id, f.extensions.attachment[0].id)}?size=64x64`
-            : 'https://openlayers.org/en/latest/examples/data/icon.png', // URL иконки маркера
-        }),
-      });
-
-      marker.setStyle(markerStyle);
-
-      // Добавляем данные объекта в маркер
-      marker.setProperties({
-        ...f, // Сохраняем все данные объекта в маркере
-      });
-
-      // Добавляем маркер в источник данных
-      vectorSourceRef.current.addFeature(marker);
     });
   }, [features]);
 
