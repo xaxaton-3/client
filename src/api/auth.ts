@@ -13,3 +13,8 @@ export const login = async (credentials: Credentials) => {
 export const register = async (credentials: Credentials) => {
   await api.post('/register/', credentials);
 };
+
+export const auth = async () => {
+  const { data } = await api.get<User>('/auth/');
+  return data;
+};

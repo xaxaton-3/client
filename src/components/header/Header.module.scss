@@ -1,10 +1,16 @@
 .header {
+  width: 100%;
   background-image: url('@/images/header.jpg');
   background-size: contain;
   padding: 8px;
+  margin-bottom: 24px;
+}
+
+.menu {
   border-radius: 8px;
   gap: 8px;
-  margin-bottom: 24px;
+  width: 100%;
+  background-color: transparent;
 
   :global(.ant-menu-item),
   :global(.ant-menu-overflow-item) {
@@ -15,4 +21,8 @@
 
 .auth {
   margin-left: auto !important;
+}
+
+.logout {
+  height: 46px;
 }

@@ -6,8 +6,11 @@ import { useRequestsStore } from '@/store/requests';
 import { RequestMeta } from '@/types/requests';
 import { formatDate } from '@/utils/date';
 import { useUserStore } from '@/store/user';
+import { useOutletContext } from 'react-router';
+import { MessageInstance } from 'antd/es/message/interface';
 
 const NewRequest = () => {
+  const { messageApi } = useOutletContext<{ messageApi: MessageInstance }>();
   const userStore = useUserStore();
   const logsStore = useLogsStore();
   const requestsStore = useRequestsStore();
@@ -16,7 +19,7 @@ const NewRequest = () => {
     try {
       let attachments: RequestMeta['attachments'] = [];
 
-      if (files.length) {
+      if (files?.length) {
         const filesPromises = files.map((file) => {
           const data = new FormData();
           data.append('file', file.originFileObj!);
@@ -40,6 +43,7 @@ const NewRequest = () => {
           attachments,
         })
         .then(() => {
+          messageApi.success('Заявка успешно отправлена!');
           logsStore.createLog({ log: 'Отправка заявки', user: userStore.user!.id });
         });
     } catch (error) {

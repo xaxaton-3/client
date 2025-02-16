@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { createAttachment, createFeature, getFeatures } from '@/api/features';
+import { createAttachment, createFeature, getFeatures, removeFeature } from '@/api/features';
 import { FeatureParams, Feature } from '@/types/features';
 import { RequestMeta } from '@/types/requests';
 
@@ -8,6 +8,7 @@ interface FeaturesStore {
   isLoading: boolean;
   getFeatures: () => Promise<void>;
   createFeature: (params: FeatureParams, attachments: RequestMeta['attachments']) => Promise<void>;
+  removeFeature: (id: number, callback?: () => void) => Promise<void>;
 }
 
 export const useFeaturesStore = create<FeaturesStore>((set) => ({
@@ -46,6 +47,18 @@ export const useFeaturesStore = create<FeaturesStore>((set) => ({
       }
       const features = await getFeatures();
       set({ features });
+    } catch (error) {
+      throw error;
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+  removeFeature: async (id, callback) => {
+    set({ isLoading: true });
+    try {
+      await removeFeature([{ id }]);
+      set((state) => ({ features: state.features.filter((feature) => feature.id !== id) }));
+      callback?.();
     } catch (error) {
       throw error;
     } finally {

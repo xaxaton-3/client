@@ -20,7 +20,15 @@ const Features = () => {
   }, [location, featuresStore.features]);
 
   if (featuresStore.isLoading) {
-    return <Spin size="large" />;
+    return (
+      <Flex
+        justify="center"
+        align="center"
+        style={{ height: 200 }}
+      >
+        <Spin size="large" />
+      </Flex>
+    );
   }
 
   return (

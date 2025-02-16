@@ -1,4 +1,4 @@
-import { login, register } from '@/api/auth';
+import { auth, login, register } from '@/api/auth';
 import { Credentials } from '@/types/auth';
 import { User } from '@/types/user';
 import { create } from 'zustand';
@@ -8,6 +8,8 @@ interface UserStore {
   isLoading: boolean;
   login: (credentials: Credentials) => Promise<void>;
   register: (credentials: Credentials) => Promise<void>;
+  auth: () => Promise<void>;
+  logout: () => void;
 }
 
 export const useUserStore = create<UserStore>((set) => ({
@@ -33,5 +35,19 @@ export const useUserStore = create<UserStore>((set) => ({
     } finally {
       set({ isLoading: false });
     }
+  },
+  auth: async () => {
+    set({ isLoading: true });
+    try {
+      const user = await auth();
+      set({ user });
+    } catch (error) {
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+  logout: () => {
+    set({ user: null });
+    localStorage.removeItem('token');
   },
 }));
