@@ -3,12 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { FeatureAttachment } from '@/types/features';
 import styles from './Book.module.scss';
 import { Flex } from 'antd';
-
-const getImageUrl = (featureId: number, attachmentId: number) => {
-  const baseUrl = import.meta.env.VITE_GEOIS_API_URL;
-  const resourceId = import.meta.env.VITE_GEOIS_ID;
-  return `${baseUrl}/resource/${resourceId}/feature/${featureId}/attachment/${attachmentId}/image`;
-};
+import { getImageUrl } from '@/utils/image';
 
 const BookSlider: FC<{
   featureId: number;
